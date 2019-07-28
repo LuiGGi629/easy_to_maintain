@@ -10,3 +10,19 @@ def load_dataset(x_path, y_path):
     y = pd.read_csv(os.sep.join([DATA_DIR, y_path]))
 
     return x, y
+
+
+def build_model():
+    pass
+
+
+def tune_model():
+    pass
+
+
+def train_model(print_params=False):
+    pass
+
+
+def test_model():
+    pass
