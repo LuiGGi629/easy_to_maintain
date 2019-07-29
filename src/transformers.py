@@ -70,12 +70,24 @@ class TimeTransformer():
     """
     Builds features computed from timestamps.
     """
+    adj = 1_000_000_000
 
-    def fit(self):
+    def fit(self, X, y=None):
         pass
 
-    def transform(self):
-        pass
+    def transform(self, X):
+        """
+        Loads dates into datetime object. Multiplying the timestamp by
+        constant value.
+        """
+        deadline = pd.to_datetime(X.deadline * self.adj)
+        created = pd.to_datetime(X.created_at * self.adj)
+        launched = pd.to_datetime(X.launched_at * self.adj)
+
+        return pd.DataFrame({
+            "launched_to_deadline": (deadline - launched).dt.days,
+            "created_to_launched": (launched - created).dt.days
+            })
 
 
 class CountryTransformer():
