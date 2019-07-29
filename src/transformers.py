@@ -54,7 +54,7 @@ class CategoriesExtractor(BaseEstimator, TransformerMixin):
             })
 
 
-class GoalAdjustor():
+class GoalAdjustor(BaseEstimator, TransformerMixin):
     """
     Adjusts the goal feature to USD.
     """
@@ -66,14 +66,14 @@ class GoalAdjustor():
         return pd.DataFrame({"adjusted_goal": X.goal * X.static_usd_rate})
 
 
-class TimeTransformer():
+class TimeTransformer(BaseEstimator, TransformerMixin):
     """
     Builds features computed from timestamps.
     """
     adj = 1_000_000_000
 
     def fit(self, X, y=None):
-        pass
+        return self
 
     def transform(self, X):
         """
