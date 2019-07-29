@@ -59,11 +59,11 @@ class GoalAdjustor():
     Adjusts the goal feature to USD.
     """
 
-    def fit(self):
-        pass
+    def fit(self, X, y=None):
+        return self
 
-    def transform(self):
-        pass
+    def transform(self, X):
+        return pd.DataFrame({"adjusted_goal": X.goal * X.static_usd_rate})
 
 
 class TimeTransformer():
