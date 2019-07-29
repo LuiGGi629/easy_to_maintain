@@ -90,13 +90,36 @@ class TimeTransformer():
             })
 
 
-class CountryTransformer():
+class CountryTransformer(BaseEstimator, TransformerMixin):
     """
     Transform countries into larger groups to avoid having too many dummies.
     """
+    countries = {
+        'US': 'US',
+        'CA': 'Canada',
+        'GB': 'UK & Ireland',
+        'AU': 'Oceania',
+        'IE': 'UK & Ireland',
+        'SE': 'Europe',
+        'CH': "Europe",
+        'IT': 'Europe',
+        'FR': 'Europe',
+        'NZ': 'Oceania',
+        'DE': 'Europe',
+        'NL': 'Europe',
+        'NO': 'Europe',
+        'MX': 'Other',
+        'ES': 'Europe',
+        'DK': 'Europe',
+        'BE': 'Europe',
+        'AT': 'Europe',
+        'HK': 'Other',
+        'SG': 'Other',
+        'LU': 'Europe',
+    }
 
-    def fit(self):
-        pass
+    def fit(self, X, y=None):
+        return self
 
-    def transform(self):
-        pass
+    def transform(self, X):
+        return pd.DataFrame({"country": X.country.map(self.countries)})
