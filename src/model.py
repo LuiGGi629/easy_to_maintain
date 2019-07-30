@@ -7,10 +7,10 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score, classification_report
-from transformers import (CategoriesExtractor, CountryTransformer,
-                          GoalAdjustor, TimeTransformer)
-from config import (DTYPES, DATA_DIR, X_TRAIN, Y_TRAIN, X_TEST, Y_TEST,
-                    MODEL_NAME, GRID_PARAMS, PARAMS)
+from src.transformers import (CategoriesExtractor, CountryTransformer,
+                              GoalAdjustor, TimeTransformer)
+from src.config import (DTYPES, DATA_DIR, X_TRAIN, Y_TRAIN, X_TEST, Y_TEST,
+                        MODEL_NAME, GRID_PARAMS, PARAMS)
 
 
 def load_dataset(x_path, y_path):

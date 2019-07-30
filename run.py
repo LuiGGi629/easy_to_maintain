@@ -1,5 +1,7 @@
 import argparse
-from model import test_model, train_model, tune_model
+import sys
+import pytest
+from src.model import test_model, train_model, tune_model
 
 
 def main():
@@ -8,8 +10,12 @@ def main():
     parser.add_argument('stage',
                         metavar='stage',
                         type=str,
-                        choices=['tune', 'train', 'test'],
-                        help='Stage to run.')
+                        choices=['tune', 'train', 'test', 'unittest'],
+                        help="Stage to run. Either tune, train, test or unittest")
+
+    if len(sys.argv[1:]) == 0:
+        parser.print_help()
+        parser.exit()
 
     stage = parser.parse_args().stage
 
@@ -23,6 +29,10 @@ def main():
 
     elif stage == 'test':
         test_model()
+
+    elif stage == 'unittest':
+        print("Unittesting model...")
+        pytest.main(['-v', 'tests'])
 
 
 if __name__ == "__main__":

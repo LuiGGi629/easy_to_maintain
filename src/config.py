@@ -1,4 +1,4 @@
-DATA_DIR = "../data"
+DATA_DIR = "data"
 X_TRAIN = "X_train.zip"
 X_TEST = "X_test.zip"
 Y_TEST = "y_test.zip"
