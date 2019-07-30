@@ -51,7 +51,7 @@ class CategoriesExtractor(BaseEstimator, TransformerMixin):
         return pd.DataFrame({
             "gen_cat": categories.apply(lambda x: self._get_slug(x)[0]),
             "precise_cat": categories.apply(lambda x: self._get_slug(x)[1])
-            })
+        })
 
 
 class GoalAdjustor(BaseEstimator, TransformerMixin):
@@ -87,7 +87,7 @@ class TimeTransformer(BaseEstimator, TransformerMixin):
         return pd.DataFrame({
             "launched_to_deadline": (deadline - launched).dt.days,
             "created_to_launched": (launched - created).dt.days
-            })
+        })
 
 
 class CountryTransformer(BaseEstimator, TransformerMixin):
@@ -122,4 +122,5 @@ class CountryTransformer(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
-        return pd.DataFrame({"country": X.country.map(self.countries)})
+        return pd.DataFrame({"country": X.country.map(
+            self.countries)}).fillna("Other")
