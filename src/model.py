@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import joblib
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.tree import DecisionTreeClassifier
@@ -7,7 +8,8 @@ from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import GridSearchCV
 from transformers import (CategoriesExtractor, CountryTransformer,
                           GoalAdjustor, TimeTransformer)
-from config import (DTYPES, DATA_DIR, X_TRAIN, Y_TRAIN, GRID_PARAMS)
+from config import (DTYPES, DATA_DIR, X_TRAIN, Y_TRAIN, GRID_PARAMS, PARAMS,
+                    MODEL_NAME)
 
 
 def load_dataset(x_path, y_path):
@@ -55,7 +57,17 @@ def tune_model():
 
 
 def train_model(print_params=False):
-    pass
+    X_train, y_train = load_dataset(X_TRAIN, Y_TRAIN)
+
+    model = build_model()
+    model.set_params(**PARAMS)
+
+    if print_params:
+        print(model.get_params())
+
+    model.fit(X_train, y_train)
+
+    joblib.dump(model, MODEL_NAME)
 
 
 def test_model():

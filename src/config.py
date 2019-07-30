@@ -5,6 +5,7 @@ Y_TEST = "y_test.zip"
 Y_TRAIN = "y_train.zip"
 TRAIN = "train.zip"
 TEST = "test.zip"
+MODEL_NAME = 'model.joblib'
 
 DTYPES = {
     'id': 'int64',
@@ -39,4 +40,10 @@ GRID_PARAMS = {
     'model__max_depth': [5, 7, 9],
     'model__min_samples_split': [5, 10, 20],
     'preprocessor__categories__transformer__use_all': [False, True],
+}
+
+PARAMS = {
+    'model__max_depth': 9,
+    'model__min_samples_split': 5,
+    'preprocessor__categories__transformer__use_all': True
 }
