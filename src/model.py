@@ -6,10 +6,11 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import accuracy_score, classification_report
 from transformers import (CategoriesExtractor, CountryTransformer,
                           GoalAdjustor, TimeTransformer)
-from config import (DTYPES, DATA_DIR, X_TRAIN, Y_TRAIN, GRID_PARAMS, PARAMS,
-                    MODEL_NAME)
+from config import (DTYPES, DATA_DIR, X_TRAIN, Y_TRAIN, X_TEST, Y_TEST,
+                    MODEL_NAME, GRID_PARAMS, PARAMS)
 
 
 def load_dataset(x_path, y_path):
@@ -71,4 +72,12 @@ def train_model(print_params=False):
 
 
 def test_model():
-    pass
+    X_test, y_test = load_dataset(X_TEST, Y_TEST)
+
+    model = joblib.load(MODEL_NAME)
+
+    y_pred = model.predict(X_test)
+
+    print("Accuracy on test set: {:.2f}%".format(
+        100 * accuracy_score(y_test, y_pred)))
+    print(classification_report(y_test, y_pred))
