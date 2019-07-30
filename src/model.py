@@ -4,9 +4,10 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.compose import ColumnTransformer
+from sklearn.model_selection import GridSearchCV
 from transformers import (CategoriesExtractor, CountryTransformer,
                           GoalAdjustor, TimeTransformer)
-from config import (DTYPES, DATA_DIR)
+from config import (DTYPES, DATA_DIR, X_TRAIN, Y_TRAIN, GRID_PARAMS)
 
 
 def load_dataset(x_path, y_path):
@@ -43,7 +44,14 @@ def build_model():
 
 
 def tune_model():
-    pass
+    X_train, y_train = load_dataset(X_TRAIN, Y_TRAIN)
+    model = build_model()
+
+    gs = GridSearchCV(model, GRID_PARAMS, scoring="accuracy", n_jobs=-1, cv=5)
+    gs.fit(X_train, y_train)
+
+    print(f"Best Hyperparameters: {gs.best_params_}")
+    print("Best score: {:.2f}%".format(100 * gs.best_score_))
 
 
 def train_model(print_params=False):

@@ -34,3 +34,9 @@ DTYPES = {
     'permissions': 'str',
     'state': 'int64',
 }
+
+GRID_PARAMS = {
+    'model__max_depth': [5, 7, 9],
+    'model__min_samples_split': [5, 10, 20],
+    'preprocessor__categories__transformer__use_all': [False, True],
+}
