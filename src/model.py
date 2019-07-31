@@ -23,7 +23,7 @@ def load_dataset(x_path, y_path):
 
 
 def build_model():
-    cat_processor = Pipeline([("transformer", CategoriesExtractor()),
+    cat_processor = Pipeline([("extractor", CategoriesExtractor()),
                               ("one_hot",
                                OneHotEncoder(sparse=False,
                                              handle_unknown="ignore"))])

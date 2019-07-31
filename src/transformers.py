@@ -15,30 +15,25 @@ class CategoriesExtractor(BaseEstimator, TransformerMixin):
         "shorts", "documentary", "video games"
     ]
 
-    def __init__(self, use_all=False):
+    @classmethod
+    def extract_categories(cls, json_string, validate=True):
         """
-        Defines a hyperparameter use_all. That is a trick, that allows to
+        Defines a parameter validate. That is a trick, that allows to
         decide whether you want to extract all categories or only hard coded
         initially e.g.gen_cats, precise cats -> which you're intrested in, or
-        default "misc" which I'm not.
+        default "misc" which I'm not. Helper loads the string using json into
+        dict, getting slug method, and two different values as a tuple.
+        If you set to True validate parameter you'll filter. If the first
+        is not in the list category u care about, then you return default.
+        Way to make sure we don't have too many dummy features later.
         """
-        self.use_all = use_all
-
-    def _get_slug(self, x):
-        """
-        Helper loads the string using json into dict, getting slug method,
-        and two different values as a tuple. If you're not specyfing
-        use_all parameter you'll filter. If the first is not in the list
-        category u care about, then you return default. Way to make sure
-        we don't have too many dummy features later.
-        """
-        categories = json.loads(x).get("slug", "/").split("/")
+        categories = json.loads(json_string).get("slug", "/").split("/")
         # Only keep hardcoded categories
-        if not self.use_all:
-            if categories[0] not in self.gen_cats:
-                categories[0] = self.misc
-            if categories[1] not in self.precise_cats:
-                categories[1] = self.misc
+        if validate:
+            if categories[0] not in cls.gen_cats:
+                categories[0] = cls.misc
+            if categories[1] not in cls.precise_cats:
+                categories[1] = cls.misc
 
         return categories
 
@@ -49,8 +44,10 @@ class CategoriesExtractor(BaseEstimator, TransformerMixin):
         categories = X["category"]
 
         return pd.DataFrame({
-            "gen_cat": categories.apply(lambda x: self._get_slug(x)[0]),
-            "precise_cat": categories.apply(lambda x: self._get_slug(x)[1])
+            "gen_cat": categories.apply(
+                lambda x: self.extract_categories(x)[0]),
+            "precise_cat": categories.apply(
+                lambda x: self.extract_categories(x)[1])
         })
 
 
