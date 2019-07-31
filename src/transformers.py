@@ -65,7 +65,10 @@ class GoalAdjustor(BaseEstimator, TransformerMixin):
 
 class TimeTransformer(BaseEstimator, TransformerMixin):
     """
-    Builds features computed from timestamps.
+    Builds features computed from timestamps. Takes a pandas DataFrame, and
+    extracts different columns multiplied by some sort of adjustment.
+    Then it's gonna do business logic to find out how many days do we have
+    in between the deadline and launched timestamp.
     """
     def __init__(self, adj=1000_000_000):
         self.adj = adj
