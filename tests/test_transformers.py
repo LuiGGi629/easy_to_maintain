@@ -25,15 +25,20 @@ def test_unknown_country_returns_default():
 
 
 def test_time_transformer():
+    """
+    Creates pandas DataFrame which is sample data - that's the input.
+    I know what the expected output is and I just want to assert that
+    what we expect is the same as the result.
+    """
     time_transformer = TimeTransformer()
 
     deadline_timestamp = 1459283229
     created_at_timestamp = 1455845363
     launched_at_timestamp = 1456694829
 
-    sample_df = pd.DataFrame({'deadline': [deadline_timestamp], 'created_at': [
-                             created_at_timestamp], 'launched_at':
-        [launched_at_timestamp]})
+    sample_df = pd.DataFrame({'deadline': [deadline_timestamp],
+                              'created_at': [created_at_timestamp],
+                              'launched_at': [launched_at_timestamp]})
 
     expected_df = pd.DataFrame(
         {'launched_to_deadline': [29], 'created_to_launched': [9]})
