@@ -67,7 +67,8 @@ class TimeTransformer(BaseEstimator, TransformerMixin):
     """
     Builds features computed from timestamps.
     """
-    adj = 1_000_000_000
+    def __init__(self, adj=1000_000_000):
+        self.adj = adj
 
     def fit(self, X, y=None):
         return self
