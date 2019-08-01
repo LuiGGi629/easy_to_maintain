@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+import requests
 from sklearn.base import BaseEstimator, TransformerMixin
 
 
@@ -27,7 +28,8 @@ class CategoriesExtractor(BaseEstimator, TransformerMixin):
         is not in the list category u care about, then you return default.
         Way to make sure we don't have too many dummy features later.
         """
-        categories = json.loads(json_string).get("slug", "/").split("/")
+        categories = json.loads(json_string).get(
+            "slug", "/").split("/", maxsplit=1)
         # Only keep hardcoded categories
         if validate:
             if categories[0] not in cls.gen_cats:
@@ -125,3 +127,23 @@ class CountryTransformer(BaseEstimator, TransformerMixin):
     def transform(self, X):
         return pd.DataFrame({"country": X.country.map(
             self.countries)}).fillna("Other")
+
+
+class CountryFullTransformer(BaseEstimator, TransformerMixin):
+    """
+    Transformer that is connecting to rest api -> passing country as an
+    argument, parsing result from json and returning region, e.g. for CA
+    gonna produce Canada.
+    """
+    def get_region_from_code(self, country):
+        url = f"https://restcountries.eu/rest/v2/name/{country}"
+
+        result = json.loads(requests.get(url))
+        return result['region']
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return pd.DataFrame(
+            {'country': X.country.map(self.get_region_from_code)})

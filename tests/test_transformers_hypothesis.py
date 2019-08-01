@@ -1,6 +1,8 @@
 from hypothesis import given
 from hypothesis.extra.pandas import column, data_frames
-from src.transformers import GoalAdjustor
+from hypothesis.strategies import fixed_dictionaries, from_regex
+from src.transformers import GoalAdjustor, CategoriesExtractor
+import json
 
 
 # strategy
@@ -18,3 +20,11 @@ def test_goal_adjustor(sample_df):
     resulf_df = adjustor.transform(sample_df)
     # property / rule
     assert len(sample_df.index) == len(resulf_df.index)
+
+
+# strategy
+@given(fixed_dictionaries({'slug': from_regex("/")}).map(json.dumps))
+def test_extract_categories_with_hypothesis(json_string):
+    result = CategoriesExtractor.extract_categories(json_string, False)
+    # property / rule
+    assert len(result) == 2
