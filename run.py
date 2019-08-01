@@ -10,7 +10,8 @@ def main():
     parser.add_argument('stage',
                         metavar='stage',
                         type=str,
-                        choices=['tune', 'train', 'test', 'unittest'],
+                        choices=['tune', 'train', 'test', 'unittest',
+                                 'coverage'],
                         help="Stage to run. Either tune, train, test or unittest")
 
     if len(sys.argv[1:]) == 0:
@@ -33,6 +34,10 @@ def main():
     elif stage == 'unittest':
         print("Unittesting model...")
         pytest.main(['-v', 'tests'])
+
+    elif stage == 'coverage':
+        print("Running coverage...")
+        pytest.main(['--cov-report', 'term-missing', '--cov=src/', 'tests/'])
 
 
 if __name__ == "__main__":
