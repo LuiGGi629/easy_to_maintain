@@ -46,3 +46,21 @@ def test_time_transformer():
     result_df = time_transformer.transform(sample_df)
 
     assert_frame_equal(result_df, expected_df)
+
+
+def test_goal_adjustor_with_value():
+    # given
+    adjustor = GoalAdjustor()
+
+    goal_value = 10
+    usd_rate_value = 2
+
+    sample_df = pd.DataFrame(
+        {'goal': [goal_value], 'static_usd_rate': [usd_rate_value]})
+    # when
+    result_df = adjustor.transform(sample_df)
+    # then
+    expected_adjusted_goal_value = 20
+    expected_df = pd.DataFrame(
+        {'adjusted_goal': [expected_adjusted_goal_value]})
+    assert_frame_equal(result_df, expected_df)
