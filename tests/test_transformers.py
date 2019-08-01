@@ -4,11 +4,12 @@ from src.transformers import CountryTransformer, GoalAdjustor, TimeTransformer
 
 
 def test_correct_country_returned_with_simple_df():
+    # given
     df = pd.DataFrame({'country': ["CA", "GB"]})
     country_transformer = CountryTransformer()
-
+    # when
     result_df = country_transformer.transform(df)
-
+    # then
     assert len(result_df.index) == 2
     assert result_df["country"][0] == "Canada"
     assert result_df["country"][1] == "UK & Ireland"

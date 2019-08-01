@@ -11,7 +11,7 @@ def main():
                         metavar='stage',
                         type=str,
                         choices=['tune', 'train', 'test', 'unittest',
-                                 'coverage'],
+                                 'coverage', 'hypothesis'],
                         help="Stage to run. Either tune, train, test or unittest")
 
     if len(sys.argv[1:]) == 0:
@@ -38,6 +38,11 @@ def main():
     elif stage == 'coverage':
         print("Running coverage...")
         pytest.main(['--cov-report', 'term-missing', '--cov=src/', 'tests/'])
+
+    elif stage == 'hypothesis':
+        print("Running hypothesis...")
+        pytest.main(['-v', '--hypothesis-show-statistics',
+                     'tests/test_transformers_hypothesis.py'])
 
 
 if __name__ == "__main__":
